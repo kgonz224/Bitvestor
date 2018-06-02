@@ -27,7 +27,6 @@ class Bitvestor {
 	
 	private static final long INVEST_GAP = 5000; // In milliseconds
 
-
 	public static void main(String[] args) {
 		System.out.println("Bitvestor is a go!\n");
 
@@ -49,7 +48,8 @@ class Bitvestor {
 		// Button
 		GUI gui = new GUI();
 		gui.createLogout();
-		
+
+		System.out.println("I have begun.");	
 		while(gui.getLogoutStatus() == false){
 			System.out.println("Hi I'm still here!");
 			try {
@@ -68,7 +68,7 @@ class Bitvestor {
 		// 	Invest
 		// Loop until log out.
 
-		System.out.println("Am I still alive?\nWohoo");
+		System.out.println("You logged out!\nWohoo");
 		return;
 	}
 }

@@ -23,15 +23,14 @@ class GUI {
 
 	private boolean logout = false;
 
-	private final int FRAME_WIDTH = 700;
-	private final int FRAME_HEIGHT = 600;
-	private final String HEADER = "BITVESTOR: Making money cents at a time.";
-	private final String REMINDER_TXT = "<html><center>Please do NOT force close " +
-						"program. Investments may <br>" +
-						"stay as crypto in unstable " +
-						"markets. Please click <br>" +
-						"'Logout' when finished and " +
-						"wait for completion message.<br><br></center></html>";
+	private final int FRAME_WIDTH = 500;
+	private final int FRAME_HEIGHT = 180;
+	private final String HEADER = "BITVESTOR: Making money cents at a time";
+	private final String REMINDER_TXT = "<html><center>Please do NOT " +
+			"force close program. Investments may <br>stay as " + 
+			"crypto in unstable markets. Please click <br>'Logout'" +
+		        " when finished and wait for completion message." +
+			"<br><br></center></html>";
 
 	protected boolean getLogoutStatus() {
 		return logout;
@@ -41,6 +40,17 @@ class GUI {
 		return;	
 	}
 
+	/**
+	 * void createLogout();
+	 *
+	 * Creates a non-resizable window with a message, disabled 'X' button,
+	 * and a logout button. When pressed changes variable logout to true.
+	 *
+	 * @author: Kevin Gonzalez
+	 * @version: 0.0
+	 * @date: 06/01/2018
+	 * @return: void
+	 */
 	protected void createLogout() {
 		//JFrame
 		JFrame frame = new JFrame(HEADER);
@@ -73,5 +83,6 @@ class GUI {
 		frame.add(bottomPanel);
 		frame.setVisible(true);
 
+		return;
 	}
 }
