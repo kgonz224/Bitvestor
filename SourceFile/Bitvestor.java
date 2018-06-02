@@ -48,7 +48,7 @@ class Bitvestor {
 
 		// Button
 		GUI gui = new GUI();
-		gui.createFrame();	
+		gui.createLogout();
 		
 		while(gui.getLogoutStatus() == false){
 			System.out.println("Hi I'm still here!");
