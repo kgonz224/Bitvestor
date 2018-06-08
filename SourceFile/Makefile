@@ -4,13 +4,12 @@
 #	Creation Date: 05/31/2018
 #
 
-INPUT = input.txt
 SOURCEFILES = Bitvestor.java GUI.java
 RUNFILE = Bitvestor
 
 test:
 	make compile
-	make run < $(INPUT)
+	make run
 
 compile: $(SOURCEFILES)
 	javac $(SOURCEFILES)

@@ -24,36 +24,36 @@
 import java.util.Scanner; //Subject to change (GUI, web, other)
 
 class Bitvestor {
-	
-	private static final long INVEST_GAP = 5000; // In milliseconds
+
+	private static final int POLLS_PER_INVESTMENT = 12;
+	private static final long POLLING_TIME = 3000; // In milliseconds
 
 	public static void main(String[] args) {
 		System.out.println("Bitvestor is a go!\n");
 
-		String usrName = "";
-		String pssw = "";
+		GUI gui = new GUI();
+		gui.introMessage();
+		gui.waitForTerms();
 
 		// Bitvestor user database connection
 		// Market database connection
-		Scanner scan = new Scanner(System.in);
 
-		System.out.print("User Name: ");
-		usrName = scan.nextLine();
-		System.out.print("Password: ");
-		pssw = scan.nextLine();
-		System.out.println(usrName + " " + pssw);
+		gui.signIn();
+		gui.waitForLogin();
 
 		// Database: Find user info
 
-		// Button
-		GUI gui = new GUI();
+		// Button FIXME: MODULIZE POLLING
 		gui.createLogout();
 
 		System.out.println("I have begun.");	
 		while(gui.getLogoutStatus() == false){
+			// Investment loop
+
+			// Waiting period 
 			System.out.println("Hi I'm still here!");
 			try {
-				Thread.sleep(INVEST_GAP);
+				Thread.sleep(POLLING_TIME);
 			}
 			catch(InterruptedException e) {
 				System.out.println("I guess I'm not tired.");
