@@ -85,13 +85,39 @@ class GUI {
 	}
 
 	/**
+	 * void waitForLogout(long totalSec)
+	 *
+	 * Loops until logout is true or for x amount of seconds.
+	 * Use with createLogout()
+	 *
+	 * @author: Kevin Gonzalez
+	 * @version: 0.0
+	 * @date: 06/07/2018
+	 * @param: totalSec
+	 * 	Amount of seconds checking for logout
+	 * @return: void
+	 */
+	protected void waitForLogout(long totalSec) {
+		for(long second = 0; second < totalSec && !logout; second++) {
+			System.out.println("I'm still here");	//FIXME: Delete line.
+			try {
+				Thread.sleep(POLLING_INTERVAL);
+			}
+			catch(InterruptedException e) {
+				System.out.println("Failed to wait.");
+			}
+		}
+		return;
+	}
+
+	/**
 	 * void waitForLogin()
 	 *
 	 * Loops until loggedIn is true. Use with signIn()
 	 *
 	 * @author: Kevin Gonzalez
 	 * @version: 0.0
-	 * @date: 06/06/2018
+	 * @date: 06/07/2018
 	 * @return: void
 	 */
 	protected void waitForLogin() {
@@ -99,7 +125,9 @@ class GUI {
 			try {
 				Thread.sleep(POLLING_INTERVAL);
 			}
-			catch(InterruptedException e) {}
+			catch(InterruptedException e) {
+				System.out.println("Failed to wait.");
+			}
 		}
 		return;
 	}
@@ -111,7 +139,7 @@ class GUI {
 	 *
 	 * @author: Kevin Gonzalez
 	 * @version: 0.0
-	 * @date: 06/06/2018
+	 * @date: 06/07/2018
 	 * @return: void
 	 */
 	protected void waitForTerms() {
@@ -119,7 +147,9 @@ class GUI {
 			try {
 				Thread.sleep(POLLING_INTERVAL);
 			}
-			catch(InterruptedException e) {}
+			catch(InterruptedException e) {
+				System.out.println("Failed to wait.");
+			}
 		}
 		return;
 	}
@@ -256,8 +286,6 @@ class GUI {
 				pssw = passwordTF.getText();
 				loggedIn = true;
 				frame.dispose();
-				System.out.println(usr);
-				System.out.println(pssw);
 			}
 		});
 

@@ -25,8 +25,7 @@ import java.util.Scanner; //Subject to change (GUI, web, other)
 
 class Bitvestor {
 
-	private static final int POLLS_PER_INVESTMENT = 12;
-	private static final long POLLING_TIME = 3000; // In milliseconds
+	private static final int WAIT_PERIOD = 12; // In seconds
 
 	public static void main(String[] args) {
 		System.out.println("Bitvestor is a go!\n");
@@ -43,21 +42,14 @@ class Bitvestor {
 
 		// Database: Find user info
 
-		// Button FIXME: MODULIZE POLLING
 		gui.createLogout();
 
 		System.out.println("I have begun.");	
 		while(gui.getLogoutStatus() == false){
 			// Investment loop
-
+			System.out.println("Invest");
 			// Waiting period 
-			System.out.println("Hi I'm still here!");
-			try {
-				Thread.sleep(POLLING_TIME);
-			}
-			catch(InterruptedException e) {
-				System.out.println("I guess I'm not tired.");
-			}
+			gui.waitForLogout(WAIT_PERIOD);
 		}
 
 		// Check user markets for cryptocurrency pull indicators
