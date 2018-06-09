@@ -42,7 +42,7 @@ class Bitvestor {
 
 		// Database: Find user info
 
-		gui.createLogout();
+		gui.logout();
 
 		System.out.println("I have begun.");	
 		while(gui.getLogoutStatus() == false){

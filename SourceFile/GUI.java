@@ -14,6 +14,16 @@
 |               Takes care of user interface. All interactions are done through
 |		this class.
 |
+|	Methods:
+|		getPassword()
+|		getUserName()
+|		introMessage()
+|		logout()
+|		signIn()
+|		waitForLogin()
+|		waitForLogout(long)
+|		waitForTerms()
+|
 *******************************************************************************/
 import javax.swing.*;
 import java.awt.*;
@@ -38,6 +48,20 @@ class GUI {
 	private String pssw = "";
 	private boolean loggedIn = false;
 
+	/**
+	 * boolean getPassword()
+	 *
+	 * Returns password.
+	 *
+	 * @author: Kevin Gonzalez
+	 * @version: 0.0
+	 * @date: 06/07/2018
+	 * @return: String pssw
+	 * 	Password user inputs.
+	 */
+	protected String getPassword() {
+		return pssw;
+	}
 
 	/**
 	 * String getUserName()
@@ -55,40 +79,10 @@ class GUI {
 	}
 
 	/**
-	 * boolean getPassword()
-	 *
-	 * Returns password.
-	 *
-	 * @author: Kevin Gonzalez
-	 * @version: 0.0
-	 * @date: 06/07/2018
-	 * @return: String pssw
-	 * 	Password user inputs.
-	 */
-	protected String getPassword() {
-		return pssw;
-	}
-
-	/**
-	 * boolean getLogoutStatus()
-	 *
-	 * Returns value of logout status.
-	 *
-	 * @author: Kevin Gonzalez
-	 * @version: 0.0
-	 * @date: 06/01/2018
-	 * @return: boolean logout
-	 * 	logout is true if 'logout' button was pressed.
-	 */
-	protected boolean getLogoutStatus() {
-		return logout;
-	}
-
-	/**
 	 * void waitForLogout(long totalSec)
 	 *
 	 * Loops until logout is true or for x amount of seconds.
-	 * Use with createLogout()
+	 * Use with logout()
 	 *
 	 * @author: Kevin Gonzalez
 	 * @version: 0.0
@@ -263,7 +257,7 @@ class GUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//JPanel
-		JPanel headerPnl = new JPanel();
+		JPanel headerPnl = new JPanel(new GridLayout(1,1,5,10));
 		JPanel continuePnl = new JPanel();
 		JPanel signInPnl = new JPanel(new GridLayout(3,2,0,10));
 
@@ -278,6 +272,10 @@ class GUI {
 		JTextField passwordTF = new JTextField();
 
 		//JButton
+		JButton forgotBtn = new JButton("Forgot Login");
+		
+		JButton registerBtn = new JButton("Register");
+
 		JButton loginBtn = new JButton("Login");
 		loginBtn.addActionListener(new ActionListener() {
 
@@ -291,6 +289,8 @@ class GUI {
 
 		//Putting it together.
 		headerPnl.add(headerTxt);
+		headerPnl.add(forgotBtn);
+		headerPnl.add(registerBtn);
 		signInPnl.add(userName);
 		signInPnl.add(userNameTF);
 		signInPnl.add(password);
@@ -303,10 +303,10 @@ class GUI {
 
 		return;
 
-	} // End of introMessage()
+	} // End of signIn()
 
 	/**
-	 * void createLogout();
+	 * void logout();
 	 *
 	 * Creates a non-resizable window with a message, disabled 'X' button,
 	 * and a logout button. When pressed changes variable logout to true.
@@ -316,7 +316,7 @@ class GUI {
 	 * @date: 06/01/2018
 	 * @return: void
 	 */
-	protected void createLogout() {
+	protected void logout() {
 
 		final int FRAME_WIDTH = 500;
 		final int FRAME_HEIGHT = 180;
@@ -359,5 +359,5 @@ class GUI {
 
 		return;
 
-	} // End of createLogout()
+	} // End of logout()
 }
