@@ -36,9 +36,14 @@ class Bitvestor {
 
 		// Bitvestor user database connection
 		// Market database connection
-
-		gui.signIn();
-		gui.waitForLogin();
+		int i = 0;
+		// Sign in
+		do {
+			gui.signIn();
+			gui.waitForLogin();
+			i++;
+		}
+		while (i != 2/*validate*/);
 
 		// Database: Find user info
 

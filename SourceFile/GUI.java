@@ -15,10 +15,12 @@
 |		this class.
 |
 |	Methods:
+|		getLogoutStatus()
 |		getPassword()
 |		getUserName()
 |		introMessage()
 |		logout()
+|		register()
 |		signIn()
 |		waitForLogin()
 |		waitForLogout(long)
@@ -44,9 +46,29 @@ class GUI {
 
 	private boolean logout = false;
 
-	private String usr = "";
-	private String pssw = "";
-	private boolean loggedIn = false;
+	private String usr = null;
+	private String pssw = null;
+	private boolean loginAttempted = false;
+
+	private boolean registrationAttempted = false;
+	private String wallet = null;
+	private String email = null;
+	private String phone = null;
+
+	/**
+	 * boolean getLogoutStatus()
+	 *
+	 * Returns whether user logged out
+	 *
+	 * @author: Kevin Gonzalez
+	 * @version: 0.0
+	 * @date: 06/01/2018
+	 * @return: boolean logout
+	 * 	Returns true if user clicked logout.
+	 */
+	protected boolean getLogoutStatus() {
+		return logout;
+	}
 
 	/**
 	 * boolean getPassword()
@@ -76,76 +98,6 @@ class GUI {
 	 */
 	protected String getUserName() {
 		return usr;
-	}
-
-	/**
-	 * void waitForLogout(long totalSec)
-	 *
-	 * Loops until logout is true or for x amount of seconds.
-	 * Use with logout()
-	 *
-	 * @author: Kevin Gonzalez
-	 * @version: 0.0
-	 * @date: 06/07/2018
-	 * @param: totalSec
-	 * 	Amount of seconds checking for logout
-	 * @return: void
-	 */
-	protected void waitForLogout(long totalSec) {
-		for(long second = 0; second < totalSec && !logout; second++) {
-			System.out.println("I'm still here");	//FIXME: Delete line.
-			try {
-				Thread.sleep(POLLING_INTERVAL);
-			}
-			catch(InterruptedException e) {
-				System.out.println("Failed to wait.");
-			}
-		}
-		return;
-	}
-
-	/**
-	 * void waitForLogin()
-	 *
-	 * Loops until loggedIn is true. Use with signIn()
-	 *
-	 * @author: Kevin Gonzalez
-	 * @version: 0.0
-	 * @date: 06/07/2018
-	 * @return: void
-	 */
-	protected void waitForLogin() {
-		while(!loggedIn) {
-			try {
-				Thread.sleep(POLLING_INTERVAL);
-			}
-			catch(InterruptedException e) {
-				System.out.println("Failed to wait.");
-			}
-		}
-		return;
-	}
-
-	/**
-	 * void waitForTerms()
-	 *
-	 * Loops until termsAccepted is true. Use with introMessage()
-	 *
-	 * @author: Kevin Gonzalez
-	 * @version: 0.0
-	 * @date: 06/07/2018
-	 * @return: void
-	 */
-	protected void waitForTerms() {
-		while(!termsAccepted) {
-			try {
-				Thread.sleep(POLLING_INTERVAL);
-			}
-			catch(InterruptedException e) {
-				System.out.println("Failed to wait.");
-			}
-		}
-		return;
 	}
 
 	/**
@@ -235,77 +187,6 @@ class GUI {
 	} // End of introMessage()
 
 	/**
-	 * void signIn()
-	 *
-	 * Shows sign-in window. Grabs user name and password.
-	 *
-	 * @author: Kevin Gonzalez
-	 * @version: 0.0
-	 * @date: 06/07/2018
-	 * @return: void
-	 */
-	protected void signIn() {
-
-		final int FRAME_WIDTH = 500;
-		final int FRAME_HEIGHT = 250;
-
-		//JFrame
-		JFrame frame = new JFrame(HEADER);
-		frame.setResizable(false);
-		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		//JPanel
-		JPanel headerPnl = new JPanel(new GridLayout(1,1,5,10));
-		JPanel continuePnl = new JPanel();
-		JPanel signInPnl = new JPanel(new GridLayout(3,2,0,10));
-
-		//JLabel
-		JLabel headerTxt = new JLabel("<html><center><b>Sign-In</b>" +
-				"</center><br><br></html>");
-		JLabel userName = new JLabel("User Name:");
-		JLabel password = new JLabel("Password:");
-
-		//textField
-		JTextField userNameTF = new JTextField();
-		JTextField passwordTF = new JTextField();
-
-		//JButton
-		JButton forgotBtn = new JButton("Forgot Login");
-		
-		JButton registerBtn = new JButton("Register");
-
-		JButton loginBtn = new JButton("Login");
-		loginBtn.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent click) {
-				usr = userNameTF.getText();
-				pssw = passwordTF.getText();
-				loggedIn = true;
-				frame.dispose();
-			}
-		});
-
-		//Putting it together.
-		headerPnl.add(headerTxt);
-		headerPnl.add(forgotBtn);
-		headerPnl.add(registerBtn);
-		signInPnl.add(userName);
-		signInPnl.add(userNameTF);
-		signInPnl.add(password);
-		signInPnl.add(passwordTF);
-		continuePnl.add(loginBtn);
-		frame.add(headerPnl, BorderLayout.NORTH);
-		frame.add(signInPnl, BorderLayout.CENTER);
-		frame.add(continuePnl, BorderLayout.SOUTH);
-		frame.setVisible(true);
-
-		return;
-
-	} // End of signIn()
-
-	/**
 	 * void logout();
 	 *
 	 * Creates a non-resizable window with a message, disabled 'X' button,
@@ -360,4 +241,254 @@ class GUI {
 		return;
 
 	} // End of logout()
+
+	/**
+	 * void register()
+	 *
+	 * Shows the register window. Grabs credentials for new users.
+	 *
+	 * @author: Kevin Gonzalez
+	 * @version: 0.0
+	 * @date: 06/09/2018
+	 * @return: void
+	 */
+	protected void register() {
+
+		final int FRAME_WIDTH = 500;
+		final int FRAME_HEIGHT = 400;
+		final int NUMBER_OF_ELEMENTS = 6;
+
+		//JFrame
+		JFrame frame = new JFrame(HEADER);
+		frame.setResizable(false);
+		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+		frame.setLocationRelativeTo(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		//JPanel
+		JPanel headerPnl = new JPanel(new GridLayout(1,1,5,5));
+		JPanel continuePnl = new JPanel();
+		JPanel registerPnl = new JPanel(new GridLayout(NUMBER_OF_ELEMENTS,2,0,10));
+
+		//JLabel
+		JLabel headerTxt = new JLabel("<html><b>Register</b><br><br></html>");
+		JLabel userNameLb = new JLabel("User Name:");
+		JLabel passwordLb = new JLabel("Password:");
+		JLabel walletLb = new JLabel("Gemini Wallet Address:");
+		JLabel emailLb = new JLabel("E-mail:");
+		JLabel phoneLb = new JLabel("*Phone:");
+		JLabel astericsLb = new JLabel("Any element with asterics is optional.");
+
+		//textField
+		JTextField userNameTF = new JTextField();
+		JTextField passwordTF = new JTextField();
+		JTextField walletTF = new JTextField();
+		JTextField emailTF = new JTextField();
+		JTextField phoneTF = new JTextField();
+
+		//JButton
+		JButton signInBtn = new JButton("Sign-In");
+		signInBtn.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent click) {
+				registrationAttempted = false;
+				frame.dispose();
+				signIn();
+			}
+		});
+
+		JButton signUpBtn = new JButton("Sign-Up");
+		signUpBtn.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent click) {
+				registrationAttempted = true;
+				usr = userNameTF.getText();
+				pssw = passwordTF.getText();
+				wallet = walletTF.getText();
+				email = emailTF.getText();
+				phone = phoneTF.getText();
+				frame.dispose();
+			}
+		});
+
+		//Putting it together.
+		headerPnl.add(headerTxt);
+		headerPnl.add(signInBtn);
+		registerPnl.add(userNameLb);
+		registerPnl.add(userNameTF);
+		registerPnl.add(passwordLb);
+		registerPnl.add(passwordTF);
+		registerPnl.add(walletLb);
+		registerPnl.add(walletTF);
+		registerPnl.add(emailLb);
+		registerPnl.add(emailTF);
+		registerPnl.add(phoneLb);
+		registerPnl.add(phoneTF);
+		registerPnl.add(astericsLb);
+		continuePnl.add(signUpBtn);
+		frame.add(headerPnl, BorderLayout.NORTH);
+		frame.add(registerPnl, BorderLayout.CENTER);
+		frame.add(continuePnl, BorderLayout.SOUTH);
+		frame.setVisible(true);
+
+		return;
+
+	} // End of register()
+
+	/**
+	 * void signIn()
+	 *
+	 * Shows sign-in window. Grabs user name and password.
+	 *
+	 * @author: Kevin Gonzalez
+	 * @version: 0.0
+	 * @date: 06/07/2018
+	 * @return: void
+	 */
+	protected void signIn() {
+		
+		final int FRAME_WIDTH = 500;
+		final int FRAME_HEIGHT = 250;
+		
+		usr = null;
+		pssw = null;
+
+		// JFrame
+		JFrame frame = new JFrame(HEADER);
+		frame.setResizable(false);
+		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+		frame.setLocationRelativeTo(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		// JPanel
+		JPanel headerPnl = new JPanel(new GridLayout(1,2,5,5));
+		JPanel continuePnl = new JPanel();
+		JPanel signInPnl = new JPanel(new GridLayout(3,2,5,10));
+
+		// JLabel
+		JLabel headerTxt = new JLabel("<html><b>Sign-In</b><br><br></html>");
+		JLabel userNameLb = new JLabel("User Name:");
+		JLabel passwordLb = new JLabel("Password:");
+
+		// JTextField
+		JTextField userNameTF = new JTextField();
+		JTextField passwordTF = new JTextField();
+
+		// JButton
+		JButton forgotBtn = new JButton("Forgot Login");
+		//FIXME: add action listener	
+
+		JButton registerBtn = new JButton("Register");
+		registerBtn.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent click) {
+				frame.dispose();
+				register();
+			}
+		});
+
+		JButton loginBtn = new JButton("Login");
+		loginBtn.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent click) {
+				usr = userNameTF.getText();
+				pssw = passwordTF.getText();
+				loginAttempted = true;
+				frame.dispose();
+			}
+		});
+
+		// Putting it together
+		headerPnl.add(headerTxt);
+		headerPnl.add(forgotBtn);
+		headerPnl.add(registerBtn);
+		signInPnl.add(userNameLb);
+		signInPnl.add(userNameTF);
+		signInPnl.add(passwordLb);
+		signInPnl.add(passwordTF);
+		// If login has been tried before
+		if(loginAttempted) {
+			loginAttempted = false;
+			JLabel failedLoginLb = new JLabel("Incorrect username or password.");
+			signInPnl.add(failedLoginLb);
+		}
+		continuePnl.add(loginBtn);
+		frame.add(headerPnl, BorderLayout.NORTH);
+		frame.add(signInPnl, BorderLayout.CENTER);
+		frame.add(continuePnl, BorderLayout.SOUTH);
+		frame.setVisible(true);
+
+		return;
+
+	} // End of signIn()
+
+	/**
+	 * void waitForLogin()
+	 *
+	 * Loops until loggedIn is true. Use with signIn()
+	 *
+	 * @author: Kevin Gonzalez
+	 * @version: 0.0
+	 * @date: 06/07/2018
+	 * @return: void
+	 */
+	protected void waitForLogin() {
+		while(!loginAttempted) {
+			try {
+				Thread.sleep(POLLING_INTERVAL);
+			}
+			catch(InterruptedException e) {
+				System.out.println("Failed to wait.");
+			}
+		}
+		return;
+	}
+
+	/**
+	 * void waitForLogout(long totalSec)
+	 *
+	 * Loops until logout is true or for x amount of seconds.
+	 * Use with logout()
+	 *
+	 * @author: Kevin Gonzalez
+	 * @version: 0.0
+	 * @date: 06/07/2018
+	 * @param: totalSec
+	 * 	Amount of seconds checking for logout
+	 * @return: void
+	 */
+	protected void waitForLogout(long totalSec) {
+		for(long second = 0; second < totalSec && !logout; second++) {
+			System.out.println("I'm still here");	//FIXME: Delete line.
+			try {
+				Thread.sleep(POLLING_INTERVAL);
+			}
+			catch(InterruptedException e) {
+				System.out.println("Failed to wait.");
+			}
+		}
+		return;
+	}
+
+	/**
+	 * void waitForTerms()
+	 *
+	 * Loops until termsAccepted is true. Use with introMessage()
+	 *
+	 * @author: Kevin Gonzalez
+	 * @version: 0.0
+	 * @date: 06/07/2018
+	 * @return: void
+	 */
+	protected void waitForTerms() {
+		while(!termsAccepted) {
+			try {
+				Thread.sleep(POLLING_INTERVAL);
+			}
+			catch(InterruptedException e) {
+				System.out.println("Failed to wait.");
+			}
+		}
+		return;
+	}
 }
