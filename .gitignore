@@ -1,4 +1,8 @@
-# Ignored Java files #
+# Ignored Java Files #
 
 *.class
 *.swp
+
+# Ignore Temp Tester Files #
+
+Tester*

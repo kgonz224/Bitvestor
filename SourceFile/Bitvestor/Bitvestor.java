@@ -21,6 +21,8 @@
 |		markets except usdt (which is a stable coin).
 |
 *******************************************************************************/
+package Bitvestor;
+	     
 import java.util.Scanner; //Subject to change (GUI, web, other)
 
 class Bitvestor {
@@ -69,5 +71,3 @@ class Bitvestor {
 		return;
 	}
 }
-
-
